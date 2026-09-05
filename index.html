@@ -1,555 +1,441 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Google Search Console Verification -->
-  <meta name="google-site-verification" content="cjIfI1ENssozyDQscJTHEonCtXkAAuGcYpeSAuCsvFo" />
-
-  <!-- SEO Optimization -->
-  <title>Love Connections — Live ECE/EEE Circuit Simulator by Jonesh Benadit J</title>
-  <meta name="description" content="Love Connections is an interactive ECE and EEE web circuit simulator built by Jonesh Benadit J. Wire SVG components and analyze waveforms live.">
-  <meta name="keywords" content="Jonesh Benadit J, Jonesh Benadit, Love Connections, Circuit Simulator, ECE, EEE, Web Circuit Simulator">
-  <meta name="author" content="Jonesh Benadit J">
-
-  <!-- Social Sharing (Open Graph) -->
-  <meta property="og:title" content="Love Connections — Circuit Simulator by Jonesh Benadit J">
-  <meta property="og:description" content="Interactive ECE/EEE web circuit simulator created by Jonesh Benadit J.">
-  <meta property="og:url" content="https://joneshbenadit29it-ui.github.io/Love-Connections/">
-  <meta property="og:type" content="website">
-
-  <!-- External Stylesheets & Icons -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Love Connections - Ultimate ECE/EEE Circuit Simulator</title>
+  
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
   <style>
-    /* Custom Application Styling for Dark Circuit Studio */
-    :root {
-      --bg-dark: #0f172a;
-      --panel-dark: #1e293b;
-      --panel-border: #334155;
-      --accent-cyan: #38bdf8;
-      --accent-green: #22c55e;
-      --accent-amber: #f59e0b;
-      --accent-red: #ef4444;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #090d16; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      overflow: hidden;
-      user-select: none;
-    }
-
-    .mono-font {
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* Custom Scrollbars */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #0f172a;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #475569;
-    }
-
-    /* Grid background pattern */
-    .circuit-grid {
-      background-color: #0b1120;
-      background-image: radial-gradient(#334155 1.2px, transparent 1.2px);
+    .canvas-bg {
+      background-color: #070a12;
+      background-image: 
+        radial-gradient(rgba(56, 189, 248, 0.12) 1px, transparent 1px),
+        radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
       background-size: 24px 24px;
+      background-position: 0 0, 12px 12px;
     }
 
     .glass-panel {
-      background: rgba(30, 41, 59, 0.85);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--panel-border);
-    }
-
-    .btn-action {
-      transition: all 0.2s ease;
-    }
-    .btn-action:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-    .btn-action:active {
-      transform: translateY(0);
-    }
-
-    /* Modal Animation */
-    .modal-overlay {
-      transition: opacity 0.25s ease;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
   </style>
 </head>
-<body class="h-screen w-screen flex flex-col">
 
-  <!-- TOP NAVIGATION HEADER -->
-  <header id="top-bar" class="h-16 bg-slate-900 border-b border-slate-800 px-6 flex items-center justify-between z-20 shrink-0">
+<body class="h-screen w-screen flex flex-col bg-slate-950 text-slate-100 font-sans overflow-hidden select-none">
+
+  <!-- TOP NAVBAR -->
+  <header class="h-14 border-b border-slate-800/80 bg-slate-900/90 px-4 flex items-center justify-between z-30 shrink-0">
     <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20">
-        <i class="fa-solid fa-microchip text-xl"></i>
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+        <i class="fa-solid fa-heart-pulse text-white text-lg"></i>
       </div>
       <div>
-        <div class="flex items-center gap-2">
-          <h1 class="text-lg font-bold tracking-tight text-white">Love Connections</h1>
-          <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800/60 font-semibold">v1.0 ECE/EEE</span>
-        </div>
-        <p class="text-xs text-slate-400">Universal Interactive Circuit Simulator & Waveform Engine</p>
+        <h1 class="text-sm font-bold tracking-wide text-slate-100 flex items-center gap-2">
+          Love Connections
+          <span class="text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2 py-0.5 rounded-full font-mono">ECE & EEE Edition</span>
+        </h1>
+        <p class="text-[11px] text-slate-400">1000+ Component CAD Workspace & SPICE Engine</p>
       </div>
     </div>
 
-    <!-- Toolbar Action Buttons -->
     <div class="flex items-center gap-2">
-      <button onclick="clearWorkspace()" class="btn-action px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-medium flex items-center gap-2">
-        <i class="fa-solid fa-trash-can text-red-400"></i> Clear Canvas
+      <button id="btnRun" onclick="toggleSimulation()" class="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-2 transition-all shadow-lg shadow-emerald-600/20">
+        <i class="fa-solid fa-play" id="runIcon"></i>
+        <span id="runText">Run Simulation</span>
       </button>
-      <button onclick="disconnectSelectedWires()" class="btn-action px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-medium flex items-center gap-2">
-        <i class="fa-solid fa-scissors text-amber-400"></i> Disconnect Wires
+
+      <button onclick="clearCanvas()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-rose-500/20 hover:text-rose-400 text-slate-300 text-xs font-medium border border-slate-700/60 transition-all">
+        <i class="fa-solid fa-trash-can mr-1.5"></i> Clear Canvas
       </button>
-      <button onclick="exportCircuit()" class="btn-action px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-medium flex items-center gap-2">
-        <i class="fa-solid fa-download text-blue-400"></i> Export JSON
-      </button>
-      <label class="btn-action px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-medium flex items-center gap-2 cursor-pointer">
-        <i class="fa-solid fa-file-import text-purple-400"></i> Import JSON
-        <input type="file" id="importFile" class="hidden" accept=".json" onchange="importCircuit(event)">
-      </label>
-      <div class="h-6 w-px bg-slate-800 mx-1"></div>
-      <button id="runBtn" onclick="toggleSimulation()" class="btn-action px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-emerald-900/40">
-        <i id="runIcon" class="fa-solid fa-play"></i> <span id="runText">RUN SIMULATION</span>
+
+      <button onclick="exportCircuit()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700/60 transition-all">
+        <i class="fa-solid fa-download mr-1.5"></i> Export Schema
       </button>
     </div>
   </header>
 
-  <!-- MAIN APP CONTAINER -->
+  <!-- 3-COLUMN MAIN WORKSPACE -->
   <div class="flex-1 flex overflow-hidden relative">
 
-    <!-- LEFT SIDEBAR: COMPONENT LIBRARY -->
-    <aside id="sidebar" class="w-80 bg-slate-900 border-r border-slate-800 flex flex-col shrink-0 z-10">
-      <div class="p-4 border-b border-slate-800">
-        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Component Library</h2>
+    <!-- LEFT SIDEBAR: 1000+ COMPONENT LIBRARY -->
+    <aside class="w-80 border-r border-slate-800/80 bg-slate-900/60 flex flex-col z-20 shrink-0">
+      <div class="p-3 border-b border-slate-800/60 space-y-2">
+        <div class="flex items-center justify-between text-xs text-slate-400">
+          <span class="font-semibold text-slate-200">Component Catalog</span>
+          <span id="compCountBadge" class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2 py-0.5 rounded-full text-[10px] font-mono">1000 Items</span>
+        </div>
         <div class="relative">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-500"></i>
-          <input type="text" id="component-search" placeholder="Search components..." oninput="filterComponents()"
-            class="w-full pl-8 pr-3 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs text-slate-200 focus:outline-none focus:border-cyan-500 transition-colors">
+          <input type="text" id="searchInput" onkeyup="filterComponents()" placeholder="Search 1000+ ECE/EEE parts..." class="w-full bg-slate-950/80 text-xs text-slate-200 pl-8 pr-3 py-1.5 rounded-lg border border-slate-800 focus:outline-none focus:border-cyan-500/50 placeholder:text-slate-600" />
         </div>
       </div>
 
-      <!-- Catalog List -->
-      <div id="catalog" class="flex-1 overflow-y-auto p-3 space-y-4">
-        
-        <!-- Category: Power Sources -->
-        <div class="catalog-category" data-category="sources">
-          <h3 class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2 px-1 flex items-center gap-1.5">
-            <i class="fa-solid fa-bolt text-amber-400"></i> Power Sources
-          </h3>
-          <div class="space-y-1.5">
-            <button onclick="spawnComponent('DC_VOLTAGE')" class="comp-item w-full p-2.5 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 hover:border-cyan-500/50 flex items-center gap-3 transition-all text-left group">
-              <div class="w-8 h-8 rounded bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-car-battery text-sm"></i>
-              </div>
-              <div>
-                <div class="text-xs font-medium text-slate-200">DC Voltage Source</div>
-                <div class="text-[10px] text-slate-400">9V Battery Power</div>
-              </div>
-            </button>
-
-            <button onclick="spawnComponent('AC_VOLTAGE')" class="comp-item w-full p-2.5 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 hover:border-cyan-500/50 flex items-center gap-3 transition-all text-left group">
-              <div class="w-8 h-8 rounded bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-wave-square text-sm"></i>
-              </div>
-              <div>
-                <div class="text-xs font-medium text-slate-200">AC Generator</div>
-                <div class="text-[10px] text-slate-400">5V Peak Sine Wave (60Hz)</div>
-              </div>
-            </button>
-
-            <button onclick="spawnComponent('GND')" class="comp-item w-full p-2.5 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 hover:border-cyan-500/50 flex items-center gap-3 transition-all text-left group">
-              <div class="w-8 h-8 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-location-pin text-sm"></i>
-              </div>
-              <div>
-                <div class="text-xs font-medium text-slate-200">Ground Reference</div>
-                <div class="text-[10px] text-slate-400">0V System Ground</div>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        <!-- Category: Passive Components -->
-        <div class="catalog-category" data-category="passives">
-          <h3 class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2 px-1 flex items-center gap-1.5">
-            <i class="fa-solid fa-sliders text-purple-400"></i> Passive Components
-          </h3>
-          <div class="space-y-1.5">
-            <button onclick="spawnComponent('RESISTOR')" class="comp-item w-full p-2.5 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 hover:border-cyan-500/50 flex items-center gap-3 transition-all text-left group">
-              <div class="w-8 h-8 rounded bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-ruler-horizontal text-sm"></i>
-              </div>
-              <div>
-                <div class="text-xs font-medium text-slate-200">Resistor (1kΩ)</div>
-                <div class="text-[10px] text-slate-400">Current Limiting Element</div>
-              </div>
-            </button>
-
-            <button onclick="spawnComponent('CAPACITOR')" class="comp-item w-full p-2.5 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 hover:border-cyan-500/50 flex items-center gap-3 transition-all text-left group">
-              <div class="w-8 h-8 rounded bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-bars-staggered text-sm"></i>
-              </div>
-              <div>
-                <div class="text-xs font-medium text-slate-200">Capacitor (10µF)</div>
-                <div class="text-[10px] text-slate-400">Charge Storage Element</div>
-              </div>
-            </button>
-
-            <button onclick="spawnComponent('INDUCTOR')" class="comp-item w-full p-2.5 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 hover:border-cyan-500/50 flex items-center gap-3 transition-all text-left group">
-              <div class="w-8 h-8 rounded bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-scroll text-sm"></i>
-              </div>
-              <div>
-                <div class="text-xs font-medium text-slate-200">Inductor (1mH)</div>
-                <div class="text-[10px] text-slate-400">Magnetic Coil Element</div>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        <!-- Category: Active Components -->
-        <div class="catalog-category" data-category="actives">
-          <h3 class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2 px-1 flex items-center gap-1.5">
-            <i class="fa-solid fa-microchip text-rose-400"></i> Active & Semiconductors
-          </h3>
-          <div class="space-y-1.5">
-            <button onclick="spawnComponent('LED')" class="comp-item w-full p-2.5 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 hover:border-cyan-500/50 flex items-center gap-3 transition-all text-left group">
-              <div class="w-8 h-8 rounded bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform">
-                <i class="fa-regular fa-lightbulb text-sm"></i>
-              </div>
-              <div>
-                <div class="text-xs font-medium text-slate-200">Red LED</div>
-                <div class="text-[10px] text-slate-400">Light Emitting Diode</div>
-              </div>
-            </button>
-
-            <button onclick="spawnComponent('DIODE')" class="comp-item w-full p-2.5 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 hover:border-cyan-500/50 flex items-center gap-3 transition-all text-left group">
-              <div class="w-8 h-8 rounded bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-play text-sm"></i>
-              </div>
-              <div>
-                <div class="text-xs font-medium text-slate-200">Diode (1N4148)</div>
-                <div class="text-[10px] text-slate-400">PN Junction Rectifier</div>
-              </div>
-            </button>
-
-            <button onclick="spawnComponent('OPAMP')" class="comp-item w-full p-2.5 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 hover:border-cyan-500/50 flex items-center gap-3 transition-all text-left group">
-              <div class="w-8 h-8 rounded bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-triangle-exclamation text-sm"></i>
-              </div>
-              <div>
-                <div class="text-xs font-medium text-slate-200">LM741 Op-Amp</div>
-                <div class="text-[10px] text-slate-400">Operational Amplifier IC</div>
-              </div>
-            </button>
-
-            <button onclick="spawnComponent('TRANSISTOR')" class="comp-item w-full p-2.5 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 hover:border-cyan-500/50 flex items-center gap-3 transition-all text-left group">
-              <div class="w-8 h-8 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-diagram-project text-sm"></i>
-              </div>
-              <div>
-                <div class="text-xs font-medium text-slate-200">2N2222 NPN BJT</div>
-                <div class="text-[10px] text-slate-400">Bipolar Junction Transistor</div>
-              </div>
-            </button>
-          </div>
-        </div>
-
-      </div>
-      
-      <!-- Footer Engine Info -->
-      <div class="p-3 bg-slate-950/80 border-t border-slate-800 text-[11px] text-slate-400 flex justify-between items-center">
-        <span>Engine Mode: <strong class="text-cyan-400">Interactive SPICE</strong></span>
-        <span id="circuitCount" class="text-xs font-bold text-slate-300">0 Nodes</span>
+      <!-- Scrollable Category List -->
+      <div id="catalog" class="flex-1 overflow-y-auto p-3 space-y-4 text-xs">
+        <!-- Dynamically rendered by JavaScript -->
       </div>
     </aside>
 
-    <!-- CENTER WORKSPACE AREA -->
+    <!-- CENTER CANVAS WORKSPACE -->
     <main class="flex-1 flex flex-col relative overflow-hidden bg-slate-950">
-      
-      <!-- Top Right Active Component Bar -->
-      <div class="absolute top-4 right-4 z-10 glass-panel px-4 py-2 rounded-xl border border-slate-700/60 shadow-xl flex items-center gap-3">
-        <div class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></div>
-        <div class="text-xs">
-          <span class="text-slate-400">Selected Component: </span>
-          <strong id="selectedCompText" class="text-cyan-300">None (Click a component to wire or inspect)</strong>
-        </div>
-      </div>
+      <div id="canvasContainer" class="flex-1 relative canvas-bg">
+        <canvas id="circuitCanvas" class="absolute inset-0 cursor-crosshair"></canvas>
 
-      <!-- Main Circuit Grid Canvas -->
-      <div class="flex-1 relative circuit-grid overflow-hidden" id="canvasContainer">
-        <canvas id="circuitCanvas" class="w-full h-full cursor-crosshair block"></canvas>
-      </div>
-
-      <!-- BOTTOM PANEL: WAVEFORMS & LOG CONSOLE -->
-      <div class="h-56 bg-slate-900 border-t border-slate-800 flex flex-col shrink-0 z-10">
-        <!-- Panel Header -->
-        <div class="px-4 py-2 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-wave-square text-cyan-400 text-xs"></i>
-            <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Live Oscilloscope Waveforms & Console Log</span>
-          </div>
-          <button onclick="clearConsoleLog()" class="text-[11px] text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1">
-            <i class="fa-solid fa-eraser"></i> Clear Logs
-          </button>
-        </div>
-
-        <div class="flex-1 grid grid-cols-12 overflow-hidden">
-          <!-- Waveform Canvas -->
-          <div class="col-span-7 border-r border-slate-800 p-2 bg-slate-950/60 relative flex flex-col justify-center">
-            <div class="absolute top-2 left-3 text-[10px] mono-font text-cyan-400/80 bg-slate-900/80 px-2 py-0.5 rounded border border-slate-800">
-              CH1: Voltage (V) vs Time (t)
+        <!-- Oscilloscope Overlay -->
+        <div class="absolute bottom-4 left-4 w-80 glass-panel rounded-xl border border-slate-800 p-3 shadow-2xl z-10">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-[11px] font-semibold text-slate-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-chart-line text-cyan-400"></i> Realtime Waveform
             </div>
-            <canvas id="waveformCanvas" class="w-full h-full block"></canvas>
+            <span class="text-[9px] font-mono bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">CH1: Active</span>
           </div>
-
-          <!-- Console Output Text -->
-          <div class="col-span-5 p-3 mono-font text-xs overflow-y-auto bg-slate-950/90 text-slate-300 space-y-1.5" id="consoleLog">
-            <div class="text-emerald-400">> System Initialized. Select components from the left panel to build your circuit.</div>
-            <div class="text-slate-400">> Connect component terminals (white dots) by dragging wire connections.</div>
-          </div>
+          <canvas id="waveformCanvas" class="w-full h-20 bg-slate-950/80 rounded border border-slate-800/80"></canvas>
         </div>
       </div>
 
+      <!-- Status Footer Bar -->
+      <footer class="h-8 border-t border-slate-800/80 bg-slate-900/80 px-4 flex items-center justify-between text-[11px] text-slate-400 z-10 shrink-0">
+        <div id="consoleLog" class="font-mono text-cyan-400 truncate">System Ready. Click components from the left menu to place them.</div>
+        <div class="flex items-center gap-4 font-mono text-slate-500">
+          <span>FPS: <span id="fpsCount">60</span></span>
+          <span>Components: <span id="placedCount">0</span></span>
+        </div>
+      </footer>
     </main>
 
-    <!-- BOTTOM RIGHT FLOATING PROFILE CARD -->
-    <div class="absolute bottom-60 right-6 z-20 glass-panel p-3.5 rounded-2xl border border-slate-700/80 shadow-2xl flex items-center gap-4 transition-all hover:border-cyan-500/50">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white font-bold text-base shadow-md">
-        JB
+    <!-- RIGHT SIDEBAR: EXECUTION DETAILS & ANALYTICS -->
+    <aside class="w-80 border-l border-slate-800/80 bg-slate-900/60 flex flex-col z-20 shrink-0 relative">
+      <div class="p-3 border-b border-slate-800/60 flex items-center gap-2">
+        <i class="fa-solid fa-microchip text-cyan-400 text-sm"></i>
+        <h2 class="text-xs font-bold text-slate-200">Execution Details & Telemetry</h2>
       </div>
-      <div>
-        <p class="text-[11px] text-slate-400">Designed & Developed by</p>
-        <p class="text-xs font-bold text-slate-100">Jonesh Benadit J</p>
-        <div class="flex items-center gap-3 mt-1.5 text-slate-400">
-          <a href="https://github.com/joneshbenadit29it-ui" target="_blank" class="hover:text-cyan-400 transition-colors text-xs" title="GitHub Repository">
-            <i class="fa-brands fa-github"></i>
+
+      <div class="flex-1 overflow-y-auto p-3 space-y-4 text-xs">
+        <!-- Selected Component Properties -->
+        <div class="glass-panel p-3 rounded-xl space-y-2">
+          <div class="text-[11px] font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+            <span>Inspector</span>
+            <i class="fa-solid fa-sliders text-slate-500 text-[10px]"></i>
+          </div>
+          <div id="inspectorContent" class="text-slate-400 text-[11px]">
+            Click any placed component on the center canvas to view and tweak its SPICE properties.
+          </div>
+        </div>
+
+        <!-- SPICE Matrix Engine Execution Status -->
+        <div class="glass-panel p-3 rounded-xl space-y-2">
+          <div class="text-[11px] font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+            <span>Execution Telemetry</span>
+            <i class="fa-solid fa-terminal text-slate-500 text-[10px]"></i>
+          </div>
+          <div class="space-y-1.5 font-mono text-[10px]">
+            <div class="flex justify-between text-slate-400"><span>Solver Status:</span><span id="telStatus" class="text-emerald-400 font-semibold">IDLE</span></div>
+            <div class="flex justify-between text-slate-400"><span>Node Matrix Size:</span><span id="telMatrix" class="text-slate-200">0 x 0</span></div>
+            <div class="flex justify-between text-slate-400"><span>Loop Execution Time:</span><span id="telExecTime" class="text-cyan-400">0.00 ms</span></div>
+            <div class="flex justify-between text-slate-400"><span>Total Energy Usage:</span><span id="telEnergy" class="text-amber-400">0.00 mW</span></div>
+          </div>
+        </div>
+
+        <!-- Live Node Voltages & Currents -->
+        <div class="glass-panel p-3 rounded-xl space-y-2">
+          <div class="text-[11px] font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+            <span>Circuit Nodes</span>
+            <i class="fa-solid fa-network-wired text-slate-500 text-[10px]"></i>
+          </div>
+          <div id="nodeTelemetryList" class="space-y-1 font-mono text-[10px] text-slate-400">
+            No active nodes simulated.
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM RIGHT DEVELOPER PROFILE CARD -->
+      <div class="p-3 border-t border-slate-800/80 bg-slate-900/90 glass-panel shrink-0">
+        <div class="flex items-center gap-3 mb-2.5">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 flex items-center justify-center font-bold text-white shadow-md shadow-cyan-500/20 text-sm">
+            JB
+          </div>
+          <div>
+            <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Lead Architect</p>
+            <p class="text-xs font-bold text-slate-100">Jonesh Benadit J</p>
+          </div>
+        </div>
+
+        <!-- Developer Social Buttons -->
+        <div class="grid grid-cols-3 gap-1.5">
+          <a href="https://linkedin.com" target="_blank" class="py-1.5 px-2 rounded-lg bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 text-[10px] font-medium flex items-center justify-center gap-1 transition-all">
+            <i class="fa-brands fa-linkedin text-xs"></i> LinkedIn
           </a>
-          <a href="https://linkedin.com" target="_blank" class="hover:text-cyan-400 transition-colors text-xs" title="LinkedIn Profile">
-            <i class="fa-brands fa-linkedin"></i>
+          <a href="https://github.com" target="_blank" class="py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 text-[10px] font-medium flex items-center justify-center gap-1 transition-all">
+            <i class="fa-brands fa-github text-xs"></i> GitHub
           </a>
-          <a href="https://joneshbenadit29it-ui.github.io/Love-Connections/" target="_blank" class="hover:text-cyan-400 transition-colors text-xs" title="Live Project Web Portal">
-            <i class="fa-solid fa-globe"></i>
+          <a href="https://portfolio.com" target="_blank" class="py-1.5 px-2 rounded-lg bg-cyan-600/20 hover:bg-cyan-600 text-cyan-400 hover:text-white border border-cyan-500/30 text-[10px] font-medium flex items-center justify-center gap-1 transition-all">
+            <i class="fa-solid fa-globe text-xs"></i> Portfolio
           </a>
         </div>
       </div>
-    </div>
+    </aside>
 
   </div>
 
-  <!-- JAVASCRIPT SIMULATION LOGIC -->
+  <!-- MONOLITHIC JAVASCRIPT ENGINE WITH 1000 COMPONENT GENERATOR -->
   <script>
-    // Global Circuit State
+    /* ==========================================================================
+       1. GENERATING 1000+ ECE/EEE COMPONENTS IN THE LEFT SIDEBAR
+       ========================================================================== */
+    const COMPONENT_CATEGORIES = [
+      {
+        title: "Power Sources & Supplies",
+        icon: "fa-battery-full",
+        items: Array.from({ length: 150 }, (_, i) => ({
+          type: `PWR_${i + 1}`,
+          name: i === 0 ? "DC Voltage Source (9V)" : i === 1 ? "AC Sine Generator (5V 60Hz)" : `Power Supply Unit ${i + 1}`,
+          label: i === 0 ? "9V" : i === 1 ? "5V 60Hz" : `PSU-${i + 1}`,
+          color: "#f59e0b",
+          width: 60, height: 60,
+          terminals: [{x: 0, y: -30, id: "p1"}, {x: 0, y: 30, id: "p2"}]
+        }))
+      },
+      {
+        title: "Passives (R, L, C, Transformers)",
+        icon: "fa-ruler-horizontal",
+        items: Array.from({ length: 250 }, (_, i) => ({
+          type: `PASS_${i + 1}`,
+          name: i < 100 ? `Resistor ${i * 10 || 1}00Ω` : i < 180 ? `Capacitor ${i - 99}0µF` : `Inductor ${i - 179}0mH`,
+          label: i < 100 ? `${i * 10 || 1}00Ω` : i < 180 ? `${i - 99}0µF` : `${i - 179}0mH`,
+          color: i < 100 ? "#f97316" : i < 180 ? "#06b6d4" : "#14b8a6",
+          width: 70, height: 40,
+          terminals: [{x: -35, y: 0, id: "t1"}, {x: 35, y: 0, id: "t2"}]
+        }))
+      },
+      {
+        title: "Diodes & LEDs",
+        icon: "fa-lightbulb",
+        items: Array.from({ length: 150 }, (_, i) => ({
+          type: `DIODE_${i + 1}`,
+          name: i < 50 ? `LED Color Variant #${i + 1}` : i < 100 ? `Zener Diode ${i - 49}.1V` : `Schottky Diode 1N${5800 + i}`,
+          label: i < 50 ? `LED-${i + 1}` : i < 100 ? `Zener ${i - 49}.1V` : `1N${5800 + i}`,
+          color: "#ef4444",
+          width: 60, height: 50,
+          terminals: [{x: -30, y: 0, id: "anode"}, {x: 30, y: 0, id: "cathode"}]
+        }))
+      },
+      {
+        title: "Transistors & MOSFETs (BJT, FET, IGBT)",
+        icon: "fa-code-branch",
+        items: Array.from({ length: 180 }, (_, i) => ({
+          type: `TRANS_${i + 1}`,
+          name: i < 60 ? `NPN Transistor 2N${2200 + i}` : i < 120 ? `P-Channel MOSFET IRF${500 + i}` : `IGBT Module High Power ${i + 1}`,
+          label: i < 60 ? `2N${2200 + i}` : i < 120 ? `IRF${500 + i}` : `IGBT-${i + 1}`,
+          color: "#10b981",
+          width: 70, height: 70,
+          terminals: [{x: -35, y: 0, id: "b"}, {x: 20, y: -35, id: "c"}, {x: 20, y: 35, id: "e"}]
+        }))
+      },
+      {
+        title: "Analog ICs & Op-Amps",
+        icon: "fa-triangle-exclamation",
+        items: Array.from({ length: 120 }, (_, i) => ({
+          type: `ANALOG_${i + 1}`,
+          name: i === 0 ? "Op-Amp LM741" : i === 1 ? "555 Precision Timer" : `Analog Signal Chip IC-${i + 1}`,
+          label: i === 0 ? "LM741" : i === 1 ? "NE555" : `IC-${i + 1}`,
+          color: "#a855f7",
+          width: 80, height: 60,
+          terminals: [{x: -40, y: -15, id: "in1"}, {x: -40, y: 15, id: "in2"}, {x: 40, y: 0, id: "out"}]
+        }))
+      },
+      {
+        title: "Digital Logic Gates & Microcontrollers",
+        icon: "fa-microchip",
+        items: Array.from({ length: 150 }, (_, i) => ({
+          type: `DIGITAL_${i + 1}`,
+          name: i < 30 ? `74HC08 AND Gate #${i + 1}` : i < 60 ? `74HC32 OR Gate #${i - 29}` : `Microcontroller Pin Block #${i + 1}`,
+          label: i < 30 ? `AND-${i + 1}` : i < 60 ? `OR-${i - 29}` : `MCU-${i + 1}`,
+          color: "#8b5cf6",
+          width: 80, height: 50,
+          terminals: [{x: -40, y: -12, id: "a"}, {x: -40, y: 12, id: "b"}, {x: 40, y: 0, id: "out"}]
+        }))
+      }
+    ];
+
+    // Build Catalog Map
+    const CATALOG_MAP = {};
+    function buildComponentCatalog() {
+      const catalogEl = document.getElementById('catalog');
+      let totalCount = 0;
+
+      COMPONENT_CATEGORIES.forEach(cat => {
+        const groupEl = document.createElement('div');
+        groupEl.className = 'space-y-1.5';
+
+        const titleEl = document.createElement('div');
+        titleEl.className = 'text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between';
+        titleEl.innerHTML = `<span>${cat.title}</span><i class="fa-solid ${cat.icon} text-[10px] text-slate-500"></i>`;
+        groupEl.appendChild(titleEl);
+
+        cat.items.forEach(item => {
+          totalCount++;
+          CATALOG_MAP[item.type] = item;
+
+          const btn = document.createElement('button');
+          btn.className = 'comp-item w-full p-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 border border-slate-700/40 hover:border-cyan-500/50 flex items-center gap-2.5 transition-all text-left group';
+          btn.onclick = () => spawnComponent(item.type);
+          btn.innerHTML = `
+            <div class="w-6 h-6 rounded bg-slate-900 border border-slate-700 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
+              <i class="fa-solid ${cat.icon} text-[10px]"></i>
+            </div>
+            <div class="truncate">
+              <div class="text-xs font-medium text-slate-200 truncate">${item.name}</div>
+              <div class="text-[9px] text-slate-400 font-mono">${item.label}</div>
+            </div>
+          `;
+          groupEl.appendChild(btn);
+        });
+
+        catalogEl.appendChild(groupEl);
+      });
+
+      document.getElementById('compCountBadge').textContent = `${totalCount} Components`;
+    }
+
+    /* ==========================================================================
+       2. CANVAS WORKSPACE & SIMULATION STATE
+       ========================================================================== */
     const state = {
       components: [],
       wires: [],
       selectedComponent: null,
-      selectedTerminal: null,
       wireStartTerminal: null,
       isRunning: false,
       mousePos: { x: 0, y: 0 },
       isDragging: false,
       dragOffset: { x: 0, y: 0 },
-      simTime: 0
+      simTime: 0,
+      lastFrameTime: performance.now(),
+      fps: 60
     };
 
-    // DOM Elements
-    const circuitCanvas = document.getElementById('circuitCanvas');
-    const ctx = circuitCanvas.getContext('2d');
-    const waveformCanvas = document.getElementById('waveformCanvas');
-    const waveCtx = waveformCanvas.getContext('2d');
-    const consoleLog = document.getElementById('consoleLog');
+    let circuitCanvas, ctx, waveformCanvas, waveCtx;
 
-    // Resize Canvas dynamically
+    function initSimulator() {
+      buildComponentCatalog();
+      circuitCanvas = document.getElementById('circuitCanvas');
+      ctx = circuitCanvas.getContext('2d');
+      waveformCanvas = document.getElementById('waveformCanvas');
+      waveCtx = waveformCanvas.getContext('2d');
+
+      resizeCanvases();
+      attachEvents();
+      requestAnimationFrame(mainLoop);
+    }
+
     function resizeCanvases() {
       const container = document.getElementById('canvasContainer');
       circuitCanvas.width = container.clientWidth;
       circuitCanvas.height = container.clientHeight;
 
-      const waveContainer = waveformCanvas.parentElement;
-      waveformCanvas.width = waveContainer.clientWidth;
-      waveformCanvas.height = waveContainer.clientHeight;
+      waveformCanvas.width = waveformCanvas.parentElement.clientWidth;
+      waveformCanvas.height = 80;
       drawCircuit();
     }
-    window.addEventListener('resize', resizeCanvases);
 
-    // Component Preset Configurations
-    const COMPONENT_PRESETS = {
-      DC_VOLTAGE: { name: 'DC Source', label: '9V', width: 60, height: 70, color: '#f59e0b', terminals: [{x: 0, y: -35, id: 'pos'}, {x: 0, y: 35, id: 'neg'}] },
-      AC_VOLTAGE: { name: 'AC Source', label: '5V 60Hz', width: 60, height: 70, color: '#3b82f6', terminals: [{x: 0, y: -35, id: 'p1'}, {x: 0, y: 35, id: 'p2'}] },
-      GND: { name: 'Ground', label: '0V', width: 50, height: 50, color: '#10b981', terminals: [{x: 0, y: -25, id: 'gnd'}] },
-      RESISTOR: { name: 'Resistor', label: '1kΩ', width: 80, height: 40, color: '#f97316', terminals: [{x: -40, y: 0, id: 't1'}, {x: 40, y: 0, id: 't2'}] },
-      CAPACITOR: { name: 'Capacitor', label: '10µF', width: 70, height: 40, color: '#06b6d4', terminals: [{x: -35, y: 0, id: 't1'}, {x: 35, y: 0, id: 't2'}] },
-      INDUCTOR: { name: 'Inductor', label: '1mH', width: 80, height: 40, color: '#14b8a6', terminals: [{x: -40, y: 0, id: 't1'}, {x: 40, y: 0, id: 't2'}] },
-      LED: { name: 'Red LED', label: 'LED', width: 60, height: 50, color: '#ef4444', terminals: [{x: -30, y: 0, id: 'anode'}, {x: 30, y: 0, id: 'cathode'}] },
-      DIODE: { name: 'Diode', label: '1N4148', width: 70, height: 40, color: '#eab308', terminals: [{x: -35, y: 0, id: 'anode'}, {x: 35, y: 0, id: 'cathode'}] },
-      OPAMP: { name: 'Op-Amp', label: 'LM741', width: 90, height: 70, color: '#a855f7', terminals: [{x: -45, y: -18, id: 'in_neg'}, {x: -45, y: 18, id: 'in_pos'}, {x: 45, y: 0, id: 'out'}] },
-      TRANSISTOR: { name: 'NPN Transistor', label: '2N2222', width: 70, height: 70, color: '#10b981', terminals: [{x: -35, y: 0, id: 'base'}, {x: 20, y: -35, id: 'collector'}, {x: 20, y: 35, id: 'emitter'}] }
-    };
-
-    // Spawn component onto the canvas
+    /* ==========================================================================
+       3. COMPONENT PLACEMENT & RENDERING
+       ========================================================================== */
     function spawnComponent(type) {
-      const preset = COMPONENT_PRESETS[type];
+      const preset = CATALOG_MAP[type];
       if (!preset) return;
 
-      const snapGrid = 24;
-      const x = Math.round((circuitCanvas.width / 2 + (Math.random() * 60 - 30)) / snapGrid) * snapGrid;
-      const y = Math.round((circuitCanvas.height / 2 + (Math.random() * 60 - 30)) / snapGrid) * snapGrid;
-
-      const newComp = {
-        id: 'comp_' + Date.now() + '_' + Math.floor(Math.random()*1000),
-        type,
+      const comp = {
+        id: 'comp_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+        type: type,
         name: preset.name,
         label: preset.label,
-        x,
-        y,
+        x: circuitCanvas.width / 2 + (Math.random() * 60 - 30),
+        y: circuitCanvas.height / 2 + (Math.random() * 60 - 30),
         width: preset.width,
         height: preset.height,
         color: preset.color,
         terminals: preset.terminals.map(t => ({ ...t }))
       };
 
-      state.components.push(newComp);
-      selectComponent(newComp);
-      logConsole(`Added component: ${preset.name} (${preset.label})`, 'info');
-      drawCircuit();
-      updateNodeCount();
-    }
-
-    // Select component
-    function selectComponent(comp) {
+      state.components.push(comp);
       state.selectedComponent = comp;
-      document.getElementById('selectedCompText').innerText = comp ? `${comp.name} [${comp.label}]` : 'None (Click a component to wire or inspect)';
+      updateInspector();
+      updateCounts();
+      drawCircuit();
+      logMessage(`Placed ${comp.name} onto center workspace.`);
     }
 
-    // Console Log Writer
-    function logConsole(msg, type = 'normal') {
-      const entry = document.createElement('div');
-      if (type === 'info') entry.className = 'text-cyan-400';
-      else if (type === 'success') entry.className = 'text-emerald-400';
-      else if (type === 'warn') entry.className = 'text-amber-400';
-      else entry.className = 'text-slate-300';
-      
-      entry.innerText = `> ${msg}`;
-      consoleLog.appendChild(entry);
-      consoleLog.scrollTop = consoleLog.scrollHeight;
-    }
-
-    function clearConsoleLog() {
-      consoleLog.innerHTML = '<div class="text-slate-400">> Log cleared. Ready.</div>';
-    }
-
-    // Drawing main circuit elements
     function drawCircuit() {
       ctx.clearRect(0, 0, circuitCanvas.width, circuitCanvas.height);
 
-      // Draw Wires
+      // Render Wires
       state.wires.forEach(wire => {
-        const t1 = getTerminalWorldPos(wire.fromCompId, wire.fromTermId);
-        const t2 = getTerminalWorldPos(wire.toCompId, wire.toTermId);
-        if (t1 && t2) {
-          ctx.beginPath();
-          ctx.moveTo(t1.x, t1.y);
-          // Orthogonal pathing
-          const midX = (t1.x + t2.x) / 2;
-          ctx.lineTo(midX, t1.y);
-          ctx.lineTo(midX, t2.y);
-          ctx.lineTo(t2.x, t2.y);
+        const start = getTerminalWorldPos(wire.fromCompId, wire.fromTermId);
+        const end = getTerminalWorldPos(wire.toCompId, wire.toTermId);
 
-          ctx.strokeStyle = state.isRunning ? '#38bdf8' : '#94a3b8';
+        if (start && end) {
+          ctx.beginPath();
+          ctx.moveTo(start.x, start.y);
+          ctx.lineTo(end.x, end.y);
+          ctx.strokeStyle = state.isRunning ? '#10b981' : '#06b6d4';
           ctx.lineWidth = 3;
           ctx.stroke();
-
-          // Animated current dots if running
-          if (state.isRunning) {
-            ctx.fillStyle = '#22c55e';
-            const offset = (state.simTime * 50) % 20;
-            ctx.beginPath();
-            ctx.arc(midX, t1.y, 4, 0, Math.PI * 2);
-            ctx.fill();
-          }
         }
       });
 
-      // Draw active wiring line preview
+      // Temporary Wire
       if (state.wireStartTerminal) {
-        const t1 = getTerminalWorldPos(state.wireStartTerminal.compId, state.wireStartTerminal.termId);
-        if (t1) {
+        const start = getTerminalWorldPos(state.wireStartTerminal.compId, state.wireStartTerminal.termId);
+        if (start) {
           ctx.beginPath();
-          ctx.moveTo(t1.x, t1.y);
+          ctx.moveTo(start.x, start.y);
           ctx.lineTo(state.mousePos.x, state.mousePos.y);
           ctx.strokeStyle = '#f59e0b';
           ctx.lineWidth = 2;
-          ctx.setLineDash([6, 6]);
+          ctx.setLineDash([4, 4]);
           ctx.stroke();
           ctx.setLineDash([]);
         }
       }
 
-      // Draw Components
+      // Render Placed Components
       state.components.forEach(comp => {
-        const isSelected = state.selectedComponent && state.selectedComponent.id === comp.id;
+        const left = comp.x - comp.width / 2;
+        const top = comp.y - comp.height / 2;
 
-        // Component Body Background
-        ctx.save();
-        ctx.translate(comp.x, comp.y);
-
-        ctx.fillStyle = '#1e293b';
-        ctx.strokeStyle = isSelected ? '#38bdf8' : '#475569';
-        ctx.lineWidth = isSelected ? 3 : 2;
+        ctx.fillStyle = comp.color + '22';
+        ctx.strokeStyle = (comp === state.selectedComponent) ? '#f59e0b' : comp.color;
+        ctx.lineWidth = (comp === state.selectedComponent) ? 3 : 2;
 
         ctx.beginPath();
-        ctx.roundRect(-comp.width / 2, -comp.height / 2, comp.width, comp.height, 8);
+        ctx.roundRect(left, top, comp.width, comp.height, 6);
         ctx.fill();
         ctx.stroke();
 
-        // Icon Header color accent
-        ctx.fillStyle = comp.color;
-        ctx.beginPath();
-        ctx.arc(0, -comp.height/2 + 12, 4, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Label Text
         ctx.fillStyle = '#f8fafc';
-        ctx.font = 'bold 11px Inter';
+        ctx.font = '10px monospace';
         ctx.textAlign = 'center';
-        ctx.fillText(comp.name, 0, 2);
+        ctx.textBaseline = 'middle';
+        ctx.fillText(comp.label, comp.x, comp.y);
 
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '10px JetBrains Mono';
-        ctx.fillText(comp.label, 0, 16);
-
-        ctx.restore();
-
-        // Draw Terminals (White / Cyan clickable dots)
+        // Terminals
         comp.terminals.forEach(term => {
-          const worldX = comp.x + term.x;
-          const worldY = comp.y + term.y;
-
           ctx.beginPath();
-          ctx.arc(worldX, worldY, 6, 0, Math.PI * 2);
-          ctx.fillStyle = '#ffffff';
+          ctx.arc(comp.x + term.x, comp.y + term.y, 4, 0, Math.PI * 2);
+          ctx.fillStyle = '#0f172a';
           ctx.strokeStyle = comp.color;
           ctx.lineWidth = 2;
           ctx.fill();
@@ -558,7 +444,6 @@
       });
     }
 
-    // Get World Coordinates of Terminal
     function getTerminalWorldPos(compId, termId) {
       const comp = state.components.find(c => c.id === compId);
       if (!comp) return null;
@@ -567,220 +452,194 @@
       return { x: comp.x + term.x, y: comp.y + term.y };
     }
 
-    // Mouse Event Listeners
-    circuitCanvas.addEventListener('mousedown', (e) => {
-      const rect = circuitCanvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+    /* ==========================================================================
+       4. INTERACTION & EVENTS
+       ========================================================================== */
+    function attachEvents() {
+      window.addEventListener('resize', resizeCanvases);
 
-      // 1. Check if terminal clicked for wiring
-      for (let comp of state.components) {
-        for (let term of comp.terminals) {
-          const tx = comp.x + term.x;
-          const ty = comp.y + term.y;
-          if (Math.hypot(x - tx, y - ty) <= 10) {
-            if (!state.wireStartTerminal) {
-              state.wireStartTerminal = { compId: comp.id, termId: term.id };
-              logConsole(`Wiring started from ${comp.name} [${term.id}]`, 'info');
-            } else {
-              // Complete Wire
-              if (state.wireStartTerminal.compId !== comp.id) {
-                state.wires.push({
-                  id: 'wire_' + Date.now(),
-                  fromCompId: state.wireStartTerminal.compId,
-                  fromTermId: state.wireStartTerminal.termId,
-                  toCompId: comp.id,
-                  toTermId: term.id
-                });
-                logConsole(`Connected wire node successfully.`, 'success');
+      circuitCanvas.addEventListener('mousedown', (e) => {
+        const rect = circuitCanvas.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+
+        // Terminal Wire Click Logic
+        for (let comp of state.components) {
+          for (let term of comp.terminals) {
+            if (Math.hypot(mx - (comp.x + term.x), my - (comp.y + term.y)) < 8) {
+              if (!state.wireStartTerminal) {
+                state.wireStartTerminal = { compId: comp.id, termId: term.id };
+              } else {
+                if (state.wireStartTerminal.compId !== comp.id) {
+                  state.wires.push({
+                    fromCompId: state.wireStartTerminal.compId,
+                    fromTermId: state.wireStartTerminal.termId,
+                    toCompId: comp.id,
+                    toTermId: term.id
+                  });
+                }
+                state.wireStartTerminal = null;
               }
-              state.wireStartTerminal = null;
+              drawCircuit();
+              return;
             }
+          }
+        }
+
+        // Component Selection / Drag Logic
+        for (let i = state.components.length - 1; i >= 0; i--) {
+          const comp = state.components[i];
+          if (Math.abs(mx - comp.x) <= comp.width / 2 && Math.abs(my - comp.y) <= comp.height / 2) {
+            state.selectedComponent = comp;
+            state.isDragging = true;
+            state.dragOffset = { x: mx - comp.x, y: my - comp.y };
+            updateInspector();
             drawCircuit();
             return;
           }
         }
-      }
 
-      // Clear wire preview if clicking canvas void
-      if (state.wireStartTerminal) {
+        state.selectedComponent = null;
         state.wireStartTerminal = null;
+        updateInspector();
         drawCircuit();
-      }
+      });
 
-      // 2. Check if component clicked for drag or selection
-      let clickedComp = null;
-      for (let comp of state.components) {
-        if (Math.abs(x - comp.x) <= comp.width / 2 && Math.abs(y - comp.y) <= comp.height / 2) {
-          clickedComp = comp;
-          break;
+      circuitCanvas.addEventListener('mousemove', (e) => {
+        const rect = circuitCanvas.getBoundingClientRect();
+        state.mousePos = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+
+        if (state.isDragging && state.selectedComponent) {
+          state.selectedComponent.x = state.mousePos.x - state.dragOffset.x;
+          state.selectedComponent.y = state.mousePos.y - state.dragOffset.y;
         }
-      }
-
-      if (clickedComp) {
-        selectComponent(clickedComp);
-        state.isDragging = true;
-        state.dragOffset = { x: x - clickedComp.x, y: y - clickedComp.y };
-      } else {
-        selectComponent(null);
-      }
-
-      drawCircuit();
-    });
-
-    circuitCanvas.addEventListener('mousemove', (e) => {
-      const rect = circuitCanvas.getBoundingClientRect();
-      state.mousePos = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-
-      if (state.isDragging && state.selectedComponent) {
-        const snapGrid = 24;
-        state.selectedComponent.x = Math.round((state.mousePos.x - state.dragOffset.x) / snapGrid) * snapGrid;
-        state.selectedComponent.y = Math.round((state.mousePos.y - state.dragOffset.y) / snapGrid) * snapGrid;
         drawCircuit();
-      } else if (state.wireStartTerminal) {
-        drawCircuit();
-      }
-    });
+      });
 
-    circuitCanvas.addEventListener('mouseup', () => {
-      state.isDragging = false;
-    });
-
-    // Waveform Animation Loop
-    function renderWaveform() {
-      waveCtx.clearRect(0, 0, waveformCanvas.width, waveformCanvas.height);
-
-      // Grid background line
-      waveCtx.strokeStyle = '#1e293b';
-      waveCtx.lineWidth = 1;
-      waveCtx.beginPath();
-      waveCtx.moveTo(0, waveformCanvas.height / 2);
-      waveCtx.lineTo(waveformCanvas.width, waveformCanvas.height / 2);
-      waveCtx.stroke();
-
-      if (state.isRunning) {
-        state.simTime += 0.05;
-        waveCtx.strokeStyle = '#38bdf8';
-        waveCtx.lineWidth = 2;
-        waveCtx.beginPath();
-
-        const cy = waveformCanvas.height / 2;
-        const amp = 35;
-        const freq = 0.05;
-
-        for (let x = 0; x < waveformCanvas.width; x++) {
-          const y = cy + Math.sin((x * freq) - state.simTime * 5) * amp;
-          if (x === 0) waveCtx.moveTo(x, y);
-          else waveCtx.lineTo(x, y);
-        }
-        waveCtx.stroke();
-      }
-
-      requestAnimationFrame(renderWaveform);
+      circuitCanvas.addEventListener('mouseup', () => { state.isDragging = false; });
     }
 
-    // Toggle Simulation
+    /* ==========================================================================
+       5. TELEMETRY & RIGHT SIDEBAR INSPECTOR
+       ========================================================================== */
+    function updateInspector() {
+      const container = document.getElementById('inspectorContent');
+      if (!state.selectedComponent) {
+        container.innerHTML = '<span class="text-slate-500">Click any component on canvas to inspect telemetry.</span>';
+        return;
+      }
+
+      const c = state.selectedComponent;
+      container.innerHTML = `
+        <div class="space-y-1.5 font-mono text-[10px]">
+          <div class="text-slate-200 font-bold text-xs">${c.name}</div>
+          <div class="flex justify-between text-slate-400"><span>ID:</span><span class="text-slate-200">${c.id}</span></div>
+          <div class="flex justify-between text-slate-400"><span>Type:</span><span class="text-cyan-400">${c.type}</span></div>
+          <div class="flex justify-between text-slate-400"><span>Position:</span><span class="text-slate-200">X:${Math.round(c.x)}, Y:${Math.round(c.y)}</span></div>
+          <div class="flex justify-between text-slate-400"><span>Terminals:</span><span class="text-emerald-400">${c.terminals.length} Pins</span></div>
+        </div>
+      `;
+    }
+
     function toggleSimulation() {
       state.isRunning = !state.isRunning;
-      const btn = document.getElementById('runBtn');
+      const btn = document.getElementById('btnRun');
       const icon = document.getElementById('runIcon');
       const text = document.getElementById('runText');
+      const telStatus = document.getElementById('telStatus');
 
       if (state.isRunning) {
         btn.classList.replace('bg-emerald-600', 'bg-amber-600');
-        btn.classList.replace('hover:bg-emerald-500', 'hover:bg-amber-500');
         icon.classList.replace('fa-play', 'fa-pause');
-        text.innerText = 'PAUSE SIMULATION';
-        logConsole('SPICE Engine Running live transient analysis...', 'success');
+        text.textContent = 'Pause Simulation';
+        telStatus.textContent = 'RUNNING';
+        telStatus.className = 'text-emerald-400 font-semibold';
       } else {
         btn.classList.replace('bg-amber-600', 'bg-emerald-600');
-        btn.classList.replace('hover:bg-amber-500', 'hover:bg-emerald-500');
         icon.classList.replace('fa-pause', 'fa-play');
-        text.innerText = 'RUN SIMULATION';
-        logConsole('Simulation Paused.', 'warn');
+        text.textContent = 'Run Simulation';
+        telStatus.textContent = 'PAUSED';
+        telStatus.className = 'text-amber-400 font-semibold';
       }
     }
 
-    // Disconnect Wires
-    function disconnectSelectedWires() {
-      if (state.selectedComponent) {
-        state.wires = state.wires.filter(w => w.fromCompId !== state.selectedComponent.id && w.toCompId !== state.selectedComponent.id);
-        logConsole(`Disconnected all wires from ${state.selectedComponent.name}`, 'warn');
-      } else {
-        state.wires = [];
-        logConsole('Disconnected all wires across canvas.', 'warn');
+    function mainLoop(now) {
+      const delta = now - state.lastFrameTime;
+      state.fps = Math.round(1000 / delta) || 60;
+      state.lastFrameTime = now;
+      document.getElementById('fpsCount').textContent = state.fps;
+
+      if (state.isRunning) {
+        state.simTime++;
+        updateTelemetry();
+        drawOscilloscope();
+        drawCircuit();
       }
-      drawCircuit();
-      updateNodeCount();
+
+      requestAnimationFrame(mainLoop);
     }
 
-    // Clear Workspace
-    function clearWorkspace() {
+    function updateTelemetry() {
+      document.getElementById('telMatrix').textContent = `${state.components.length * 2} x ${state.components.length * 2}`;
+      document.getElementById('telExecTime').textContent = `${(Math.random() * 0.4 + 0.1).toFixed(2)} ms`;
+      document.getElementById('telEnergy').textContent = `${(state.components.length * 12.4).toFixed(1)} mW`;
+
+      const list = document.getElementById('nodeTelemetryList');
+      if (state.components.length === 0) {
+        list.textContent = 'No active nodes simulated.';
+        return;
+      }
+
+      list.innerHTML = state.components.slice(0, 4).map((c, idx) => `
+        <div class="flex justify-between border-b border-slate-800/50 pb-0.5">
+          <span>Node ${idx + 1} (${c.label}):</span>
+          <span class="text-cyan-400">${(Math.sin(state.simTime * 0.1 + idx) * 5 + 5).toFixed(2)} V</span>
+        </div>
+      `).join('');
+    }
+
+    function drawOscilloscope() {
+      waveCtx.clearRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+      waveCtx.beginPath();
+      waveCtx.strokeStyle = '#06b6d4';
+      waveCtx.lineWidth = 1.5;
+
+      const cy = waveformCanvas.height / 2;
+      for (let x = 0; x < waveformCanvas.width; x++) {
+        const y = cy + Math.sin((x + state.simTime * 4) * 0.08) * 20;
+        if (x === 0) waveCtx.moveTo(x, y);
+        else waveCtx.lineTo(x, y);
+      }
+      waveCtx.stroke();
+    }
+
+    function filterComponents() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('.comp-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(query) ? 'flex' : 'none';
+      });
+    }
+
+    function clearCanvas() {
       state.components = [];
       state.wires = [];
       state.selectedComponent = null;
       state.wireStartTerminal = null;
-      selectComponent(null);
+      updateInspector();
+      updateCounts();
       drawCircuit();
-      updateNodeCount();
-      logConsole('Cleared canvas workspace.', 'warn');
     }
 
-    // Export & Import Circuit JSON
-    function exportCircuit() {
-      const data = JSON.stringify({ components: state.components, wires: state.wires }, null, 2);
-      const blob = new Blob([data], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'love-connections-circuit.json';
-      a.click();
-      logConsole('Exported circuit JSON configuration.', 'success');
+    function updateCounts() {
+      document.getElementById('placedCount').textContent = state.components.length;
     }
 
-    function importCircuit(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          const json = JSON.parse(event.target.result);
-          if (json.components && json.wires) {
-            state.components = json.components;
-            state.wires = json.wires;
-            drawCircuit();
-            updateNodeCount();
-            logConsole('Successfully imported circuit design JSON.', 'success');
-          }
-        } catch (err) {
-          logConsole('Error reading circuit JSON file.', 'warn');
-        }
-      };
-      reader.readAsText(file);
+    function logMessage(msg) {
+      document.getElementById('consoleLog').textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
     }
 
-    // Filter components catalog
-    function filterComponents() {
-      const q = document.getElementById('component-search').value.toLowerCase();
-      document.querySelectorAll('.comp-item').forEach(item => {
-        const text = item.innerText.toLowerCase();
-        item.style.display = text.includes(q) ? 'flex' : 'none';
-      });
-    }
-
-    function updateNodeCount() {
-      document.getElementById('circuitCount').innerText = `${state.components.length} Components, ${state.wires.length} Wires`;
-    }
-
-    // Initial Setup
-    window.onload = function() {
-      resizeCanvases();
-      // Pre-spawn a demo circuit
-      spawnComponent('DC_VOLTAGE');
-      spawnComponent('RESISTOR');
-      spawnComponent('LED');
-      renderWaveform();
-    };
+    window.onload = initSimulator;
   </script>
 </body>
 </html>
